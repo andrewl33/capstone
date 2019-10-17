@@ -1,2 +1,7 @@
-*/Build/
-*/Builds/
+  
+# JUCE
+JuceLibraryCode/
+
+# Build
+Build/
+Builds/
