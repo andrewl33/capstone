@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="TjfuH8" name="base" projectType="guiapp" jucerVersion="5.4.5">
+<JUCERPROJECT id="TjfuH8" name="base" projectType="guiapp" jucerVersion="5.4.5"
+              projectLineFeed="&#10;" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="nJWDfJ" name="base">
     <GROUP id="{7C707313-1A9F-ACE5-34C0-B69D3DED2A9A}" name="Source">
       <FILE id="jmAUJ6" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
