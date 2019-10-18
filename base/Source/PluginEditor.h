@@ -12,24 +12,35 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "Oscillator.h"
+#include "Envelope.h"
+#include "Filter.h"
+
 
 //==============================================================================
 /**
 */
-class BaseAudioProcessorEditor  : public AudioProcessorEditor
+class JuceSynthFrameworkAudioProcessorEditor : public AudioProcessorEditor
+
 {
 public:
-    BaseAudioProcessorEditor (BaseAudioProcessor&);
-    ~BaseAudioProcessorEditor();
+	JuceSynthFrameworkAudioProcessorEditor(JuceSynthFrameworkAudioProcessor&);
+	~JuceSynthFrameworkAudioProcessorEditor();
 
-    //==============================================================================
-    void paint (Graphics&) override;
-    void resized() override;
+	//==============================================================================
+	void paint(Graphics&) override;
+	void resized() override;
+
+
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    BaseAudioProcessor& processor;
+	// This reference is provided as a quick way for your editor to
+	// access the processor object that created it.
+	JuceSynthFrameworkAudioProcessor& processor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BaseAudioProcessorEditor)
+	Oscillator oscGui;
+	Envelope envGui;
+	Filter filterGui;
+
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JuceSynthFrameworkAudioProcessorEditor)
 };

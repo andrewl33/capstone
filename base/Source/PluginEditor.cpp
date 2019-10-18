@@ -11,32 +11,39 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
-BaseAudioProcessorEditor::BaseAudioProcessorEditor (BaseAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
-{
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
-}
-
-BaseAudioProcessorEditor::~BaseAudioProcessorEditor()
-{
-}
 
 //==============================================================================
-void BaseAudioProcessorEditor::paint (Graphics& g)
+JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor(JuceSynthFrameworkAudioProcessor& p)
+	: AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+	setSize(600, 200);
 
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+	addAndMakeVisible(&oscGui);
+	addAndMakeVisible(&envGui);
+	addAndMakeVisible(&filterGui);
 }
 
-void BaseAudioProcessorEditor::resized()
+JuceSynthFrameworkAudioProcessorEditor::~JuceSynthFrameworkAudioProcessorEditor()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+}
+
+//==============================================================================
+void JuceSynthFrameworkAudioProcessorEditor::paint(Graphics& g)
+{
+	g.fillAll(Colours::black);
+}
+
+void JuceSynthFrameworkAudioProcessorEditor::resized()
+{
+	juce::Rectangle<int> area = getLocalBounds();
+
+	const int componentWidth = 200;
+	const int componentHeight = 200;
+
+	oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+	filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+	envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+
+
+
 }

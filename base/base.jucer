@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="yIiCOX" name="base" projectType="audioplug" jucerVersion="5.4.5"
-              projectLineFeed="&#10;" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
+              projectLineFeed="&#10;" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginManufacturer="andrewrlee" aaxIdentifier="dev.andrewrlee/capstone"
+              pluginFormats="buildVST3">
   <MAINGROUP id="uXISEq" name="base">
     <GROUP id="{E0D97610-4754-D89A-E674-9EAD01FEEA7C}" name="Source">
+      <FILE id="zsEyvO" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
+      <FILE id="jQB7Gx" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+      <FILE id="nJBkb6" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      <FILE id="nH5XnR" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
+      <FILE id="jeYkv7" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+      <FILE id="TxccfD" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="jKcxAC" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="kZc1n8" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="xD2KRR" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="PYBTTo" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="jKcxAC" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="kZc1n8" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="pD7sa9" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="YnivX7" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
     </GROUP>
     <GROUP id="{124123D5-3D74-01DE-FFA7-DDDF704B3C1A}" name="Maximilian">
       <GROUP id="{C837AF1B-1E4D-8121-41C5-55504B94B126}" name="libs">

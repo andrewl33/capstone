@@ -1,6 +1,6 @@
 # JUCE Synth
 
-UI experiments live here.
+UI experiments live here. Base code is taken from https://github.com/theaudioprogrammer/juceSynthFramework, up to the last synth tutorial.
 Main repo [rorschach synth](https://github.com/sjudkis/rorschach).
 
 ## Maximilian
