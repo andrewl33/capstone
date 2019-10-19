@@ -10,7 +10,8 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "SidebarRotaryLookAndFeel.h"
+//#include "SidebarRotaryLookAndFeel.h"
+//#include "SidebarVertSliderLookAndFeel.h"
 
 //==============================================================================
 Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor& p)
@@ -51,18 +52,22 @@ Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor&
 
 	slider1.setSliderStyle(Slider::LinearVertical);
 	slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	slider1.setLookAndFeel(&sidebarVertSliderLookAndFeel);
 	addAndMakeVisible(&slider1);
 
 	slider2.setSliderStyle(Slider::LinearVertical);
 	slider2.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	slider2.setLookAndFeel(&sidebarVertSliderLookAndFeel);
 	addAndMakeVisible(&slider2);
 
 	slider3.setSliderStyle(Slider::LinearVertical);
 	slider3.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	slider3.setLookAndFeel(&sidebarVertSliderLookAndFeel);
 	addAndMakeVisible(&slider3);
 
 	slider4.setSliderStyle(Slider::LinearVertical);
 	slider4.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	slider4.setLookAndFeel(&sidebarVertSliderLookAndFeel);
 	addAndMakeVisible(&slider4);
 
 	setSize(929, totalHeight);
@@ -76,6 +81,10 @@ Static_AudioProcessorEditor::~Static_AudioProcessorEditor()
 	dial4.setLookAndFeel(nullptr);
 	dial5.setLookAndFeel(nullptr);
 	dial6.setLookAndFeel(nullptr);
+	slider1.setLookAndFeel(nullptr);
+	slider2.setLookAndFeel(nullptr);
+	slider3.setLookAndFeel(nullptr);
+	slider4.setLookAndFeel(nullptr);
 }
 
 //==============================================================================

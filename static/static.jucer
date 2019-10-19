@@ -3,6 +3,10 @@
 <JUCERPROJECT id="dZSpG0" name="static" projectType="audioplug" jucerVersion="5.4.5">
   <MAINGROUP id="FhuMcQ" name="static">
     <GROUP id="{E1CD7D91-C6D9-6D3D-30C4-4DD1AF5E12C4}" name="Source">
+      <FILE id="ofAifN" name="SidebarVertSliderLookAndFeel.cpp" compile="1"
+            resource="0" file="Source/SidebarVertSliderLookAndFeel.cpp"/>
+      <FILE id="eofgNv" name="SidebarVertSliderLookAndFeel.h" compile="0"
+            resource="0" file="Source/SidebarVertSliderLookAndFeel.h"/>
       <FILE id="y5lek4" name="SidebarRotaryLookAndFeel.cpp" compile="1" resource="0"
             file="Source/SidebarRotaryLookAndFeel.cpp"/>
       <FILE id="rIfyZN" name="blot.jpg" compile="0" resource="1" file="../imgs/blot.jpg"/>

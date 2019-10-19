@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "SidebarRotaryLookAndFeel.h"
+#include "SidebarVertSliderLookAndFeel.h"
 
 //==============================================================================
 /**
@@ -49,5 +50,6 @@ private:
 	const int imageWidth = 736;
 	const int totalHeight = 479;
 	SidebarRotaryLookAndFeel sidebarRotaryLookAndFeel;
+	SidebarVertSliderLookAndFeel sidebarVertSliderLookAndFeel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Static_AudioProcessorEditor)
 };
