@@ -10,7 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include <iostream>
+#include "SidebarRotaryLookAndFeel.h"
 
 //==============================================================================
 Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor& p)
@@ -21,26 +21,32 @@ Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor&
 	dial1.setSliderStyle(Slider::Rotary);
 	// slider1.setRange(0.0, 127.0, 1.0);
 	dial1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial1.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial1);
 
 	dial2.setSliderStyle(Slider::Rotary);
 	dial2.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial2.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial2);
 
 	dial3.setSliderStyle(Slider::Rotary);
 	dial3.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial3.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial3);
 
 	dial4.setSliderStyle(Slider::Rotary);
 	dial4.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial4.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial4);
 
 	dial5.setSliderStyle(Slider::Rotary);
 	dial5.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial5.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial5);
 
 	dial6.setSliderStyle(Slider::Rotary);
 	dial6.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	dial6.setLookAndFeel(&sidebarRotaryLookAndFeel);
 	addAndMakeVisible(&dial6);
 
 	slider1.setSliderStyle(Slider::LinearVertical);
@@ -64,6 +70,12 @@ Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor&
 
 Static_AudioProcessorEditor::~Static_AudioProcessorEditor()
 {
+	dial1.setLookAndFeel(nullptr);
+	dial2.setLookAndFeel(nullptr);
+	dial3.setLookAndFeel(nullptr);
+	dial4.setLookAndFeel(nullptr);
+	dial5.setLookAndFeel(nullptr);
+	dial6.setLookAndFeel(nullptr);
 }
 
 //==============================================================================

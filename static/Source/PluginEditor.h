@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "SidebarRotaryLookAndFeel.h"
 
 //==============================================================================
 /**
@@ -47,5 +48,6 @@ private:
 	const Colour brownColour = Colour((uint8)94, (uint8)74, (uint8)62, (uint8)255);
 	const int imageWidth = 736;
 	const int totalHeight = 479;
+	SidebarRotaryLookAndFeel sidebarRotaryLookAndFeel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Static_AudioProcessorEditor)
 };

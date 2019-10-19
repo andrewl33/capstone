@@ -3,11 +3,15 @@
 <JUCERPROJECT id="dZSpG0" name="static" projectType="audioplug" jucerVersion="5.4.5">
   <MAINGROUP id="FhuMcQ" name="static">
     <GROUP id="{E1CD7D91-C6D9-6D3D-30C4-4DD1AF5E12C4}" name="Source">
+      <FILE id="y5lek4" name="SidebarRotaryLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/SidebarRotaryLookAndFeel.cpp"/>
       <FILE id="rIfyZN" name="blot.jpg" compile="0" resource="1" file="../imgs/blot.jpg"/>
       <FILE id="cELg3k" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="XbaIft" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
+      <FILE id="Z5tjWy" name="SidebarRotaryLookAndFeel.h" compile="0" resource="0"
+            file="Source/SidebarRotaryLookAndFeel.h"/>
       <FILE id="jZmCxd" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="ded9It" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
