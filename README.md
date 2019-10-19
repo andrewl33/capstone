@@ -20,6 +20,6 @@ Steps to add:
 ## Folders
 
 | Folder     | Description           | Image |
-| ---|:--:|---:|
+| ---|:--:|---|
 |base| Contains base working synth; all other projects are based on this.|
 |static| Contains mock static UI |![Week 4 update](https://github.com/andrewl33/capstone/blob/master/imgs/week4lookandfeel.PNG?raw=true)|
