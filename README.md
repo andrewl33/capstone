@@ -19,3 +19,4 @@ Steps to add:
 | Folder     | Description           | 
 | ---|--:|
 |base| Contains base working synth; all other projects are based on this.|
+|static| Contains mock static UI |
