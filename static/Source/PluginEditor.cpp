@@ -90,13 +90,38 @@ Static_AudioProcessorEditor::~Static_AudioProcessorEditor()
 //==============================================================================
 void Static_AudioProcessorEditor::paint (Graphics& g)
 {
+	auto area = getLocalBounds();
+	const auto sideWidth = area.getWidth() - imageWidth;
+	const auto middleSideWidth = imageWidth + (sideWidth / 2);
 	Image background = ImageCache::getFromMemory(BinaryData::blot_jpg, BinaryData::blot_jpgSize);
 	
 	g.drawImageAt(background, 0, 0);
 
-	Rectangle<int> area(Point<int> (imageWidth,0), Point<int>(getLocalBounds().getWidth(), getLocalBounds().getHeight()));
+	Rectangle<int> toggleArea(Point<int> (imageWidth,0), Point<int>(getLocalBounds().getWidth(), getLocalBounds().getHeight()));
 	g.setColour(tanColour);
-	g.fillRect(area);
+	g.fillRect(toggleArea);
+
+	// statically set ADSR envelope
+	auto widthStart = middleSideWidth - 80;
+	auto widthEnd = middleSideWidth + 80;
+	auto heightStart = area.getHeight() - 100;
+	auto heightEnd = area.getHeight() - 20;
+	Rectangle<int> envelopeArea(Point<int>(widthStart, heightStart), Point<int>(widthEnd, heightEnd));
+	g.setColour(brownColour);
+	g.fillRect(envelopeArea);
+
+	Path adsrPath;
+	// Start and end are pulled out a bit
+	adsrPath.startNewSubPath(Point<float>(widthStart-5, heightEnd-10));
+	adsrPath.lineTo(Point<float>(widthStart, heightEnd - 10)); // Line before attack
+	adsrPath.lineTo(Point<float>(widthStart+40, heightStart + 10));	// Attack line
+	adsrPath.lineTo(Point<float>(widthStart + 60, heightStart + 40));	// Delay line
+	adsrPath.lineTo(Point<float>(widthStart + 140, heightStart + 40));	// Sustain line
+	adsrPath.lineTo(Point<float>(widthStart + 160, heightEnd - 10));	// Release line
+	adsrPath.lineTo(Point<float>(widthEnd+5, heightEnd - 10)); // Line after release
+	// adsrPath.closeSubPath();
+	g.setColour(tanColour);
+	g.strokePath(adsrPath, PathStrokeType(5.0f, PathStrokeType::JointStyle::curved));
 }
 
 void Static_AudioProcessorEditor::resized()

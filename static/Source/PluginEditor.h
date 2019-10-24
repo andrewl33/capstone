@@ -45,6 +45,7 @@ private:
 	Slider slider3;
 	Slider slider4;
 
+
 	const Colour tanColour = Colour((uint8)234, (uint8)213, (uint8)201, (uint8)255);
 	const Colour brownColour = Colour((uint8)94, (uint8)74, (uint8)62, (uint8)255);
 	const int imageWidth = 736;
