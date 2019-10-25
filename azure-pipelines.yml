@@ -8,7 +8,7 @@ trigger:
 - azure
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-latest'
   
 variables:
   solution: './static/Builds/VisualStudio2019/static.sln'
@@ -16,6 +16,8 @@ variables:
   buildConfiguration: 'Debug'
   
 steps:
+- task: NuGetToolInstaller@1
+
 - powershell: (New-Object System.Net.WebClient).DownloadFile("https://d30pueezughrda.cloudfront.net/juce/juce-5.4.5-windows.zip", "$pwd/juce.zip")
   displayName: 'Download JUCE'
   
@@ -24,18 +26,11 @@ steps:
   
 - powershell: ./juce/JUCE/Projucer.exe --resave ./static/static.jucer
   displayName: 'rebuild macOS and Windows targets'
-
+- powershell: ./juce/JUCE/Projucer.exe --help
 - powershell: ls
 - powershell: ls ./static
 - powershell: ls ./static/Builds
 - powershell: ls ./static/Builds/VisualStudio2019
-
-
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
 
 - task: VSBuild@1
   inputs:
