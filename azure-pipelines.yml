@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- azure
 
 pool:
   vmImage: 'windows-2019'
@@ -13,5 +14,7 @@ steps:
   displayName: 'Download JUCE'
 - powershell: Expand-Archive ./juce.zip
   displayName: 'unzip JUCE'
+- powershell: ls
 - powershell: ./juce/Projucer.exe --resave ./static/static.jucer
+  displayName: 'rebuild macOS and Windows targets'
 
