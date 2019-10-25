@@ -26,7 +26,8 @@ steps:
   
 - powershell: ./juce/JUCE/Projucer.exe --resave ./static/static.jucer
   displayName: 'rebuild macOS and Windows targets'
-- powershell: ./juce/JUCE/Projucer.exe --help
+- powershell: ls /
+- powershell: ls /Builds
 - powershell: ls
 - powershell: ls ./static
 - powershell: ls ./static/Builds
