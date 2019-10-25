@@ -70,6 +70,12 @@ Static_AudioProcessorEditor::Static_AudioProcessorEditor (Static_AudioProcessor&
 	slider4.setLookAndFeel(&sidebarVertSliderLookAndFeel);
 	addAndMakeVisible(&slider4);
 
+	// set main dial position
+	mainDial.setSliderStyle(Slider::Rotary);
+	mainDial.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	mainDial.setLookAndFeel(&mainDialLookAndFeel);
+	addAndMakeVisible(&mainDial);
+
 	setSize(929, totalHeight);
 }
 
@@ -85,6 +91,7 @@ Static_AudioProcessorEditor::~Static_AudioProcessorEditor()
 	slider2.setLookAndFeel(nullptr);
 	slider3.setLookAndFeel(nullptr);
 	slider4.setLookAndFeel(nullptr);
+	mainDial.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -94,7 +101,7 @@ void Static_AudioProcessorEditor::paint (Graphics& g)
 	const auto sideWidth = area.getWidth() - imageWidth;
 	const auto middleSideWidth = imageWidth + (sideWidth / 2);
 	Image background = ImageCache::getFromMemory(BinaryData::blot_jpg, BinaryData::blot_jpgSize);
-	
+
 	g.drawImageAt(background, 0, 0);
 
 	Rectangle<int> toggleArea(Point<int> (imageWidth,0), Point<int>(getLocalBounds().getWidth(), getLocalBounds().getHeight()));
@@ -150,4 +157,7 @@ void Static_AudioProcessorEditor::resized()
 	slider2.setBounds(middleSideWidth - (sideWidth / 6), vertSliderTop, 20, vertSliderTop / 2);
 	slider3.setBounds(middleSideWidth + (sideWidth / 6) - 20, vertSliderTop, 20, vertSliderTop / 2);
 	slider4.setBounds(middleSideWidth + (sideWidth / 3)- 20, vertSliderTop, 20, vertSliderTop / 2);
+
+	// set main dial position
+	mainDial.setBounds(115, 115, 200, 200);
 }

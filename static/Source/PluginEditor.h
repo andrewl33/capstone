@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "SidebarRotaryLookAndFeel.h"
 #include "SidebarVertSliderLookAndFeel.h"
+#include "MainDialLookAndFeel.h"
 
 //==============================================================================
 /**
@@ -45,6 +46,8 @@ private:
 	Slider slider3;
 	Slider slider4;
 
+	// Main rotary dial
+	Slider mainDial;
 
 	const Colour tanColour = Colour((uint8)234, (uint8)213, (uint8)201, (uint8)255);
 	const Colour brownColour = Colour((uint8)94, (uint8)74, (uint8)62, (uint8)255);
@@ -52,5 +55,6 @@ private:
 	const int totalHeight = 479;
 	SidebarRotaryLookAndFeel sidebarRotaryLookAndFeel;
 	SidebarVertSliderLookAndFeel sidebarVertSliderLookAndFeel;
+	MainDialLookAndFeel mainDialLookAndFeel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Static_AudioProcessorEditor)
 };
