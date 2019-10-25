@@ -11,7 +11,7 @@ pool:
   vmImage: 'windows-2019'
   
 variables:
-  solution: '**/*.sln'
+  solution: './static/Builds/VisualStudio2019/static.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Debug'
   
