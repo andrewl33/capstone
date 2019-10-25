@@ -25,6 +25,12 @@ steps:
 - powershell: ./juce/JUCE/Projucer.exe --resave ./static/static.jucer
   displayName: 'rebuild macOS and Windows targets'
 
+- powershell: ls
+- powershell: ls ./static
+- powershell: ls ./static/Builds
+- powershell: ls ./static/Builds/VisualStudio2019
+
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
