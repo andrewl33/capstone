@@ -13,7 +13,7 @@ pool:
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
-  buildConfiguration: 'Debug
+  buildConfiguration: 'Debug'
   
 steps:
 - powershell: (New-Object System.Net.WebClient).DownloadFile("https://d30pueezughrda.cloudfront.net/juce/juce-5.4.5-windows.zip", "$pwd/juce.zip")
