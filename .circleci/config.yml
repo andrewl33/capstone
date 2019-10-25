@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      -image: ubuntudesktop / gnome-3-28-1804
+
+    steps:
+      -checkout
+
+      -run:
+          name: update repos
+          command: apt-get update
+
+      -run:
+          name: install packages
+          command: echo y | apt-get install xvfb wget unzip libc6 libcurl3-gnutls-dev libfreetype6-dev libgcc1 libjpeg-dev libpng-dev libstdc ++ 6 libwebkit2gtk-4.0-dev libx11-6 libxext6 zlib1g make g ++ mesa-common-dev libasound2 -dev
+
+      -run:
+          name: get JUCE 5.4.3
+          command: wget https://d30pueezughrda.cloudfront.net/juce/juce-5.4.3-linux.zip
+
+      -run:
+          name: unzip JUCE
+          command: unzip juce-5.4.3-linux.zip
+
+      -run:
+          name: build and run tests
+          command: JUCE_DIR = `pwd` / JUCE xvfb-run -a --server-args="-screen 0 1280x800x24 -ac -nolisten tcp -dpi 96 + extension RANDR "run.sh"
