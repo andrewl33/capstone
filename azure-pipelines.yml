@@ -1,0 +1,17 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+steps:
+- powershell: (New-Object System.Net.WebClient).DownloadFile("https://d30pueezughrda.cloudfront.net/juce/juce-5.4.5-windows.zip", "$pwd/juce.zip")
+  displayName: 'Download JUCE'
+- powershell: Expand-Archive ./juce.zip
+  displayName: 'unzip JUCE'
+- powershell: ./juce/Projucer.exe --resave ./static/static.jucer
+
