@@ -14,7 +14,6 @@ steps:
   displayName: 'Download JUCE'
 - powershell: Expand-Archive ./juce.zip
   displayName: 'unzip JUCE'
-- powershell: ls ./juce
-- powershell: ./juce/Projucer.exe --resave ../static/static.jucer
+- powershell: ./juce/JUCE/Projucer.exe --resave ../static/static.jucer
   displayName: 'rebuild macOS and Windows targets'
 
