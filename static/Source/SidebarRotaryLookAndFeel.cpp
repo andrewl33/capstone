@@ -28,7 +28,7 @@ void SidebarRotaryLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int w
 	Path p;
 	auto pointerLength = radius * 1.0f;
 	auto pointerThickness = 3.0f;
-	p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+	p.addRectangle(-pointerThickness * 0.7f, -radius, pointerThickness, pointerLength);
 	p.applyTransform(AffineTransform::rotation(angle).translated(centreX, centreY));
 
 	// pointer
