@@ -27,6 +27,10 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
+
+	r = Random();
+
+
 }
 
 MainComponent::~MainComponent()
@@ -69,10 +73,24 @@ void MainComponent::releaseResources()
 //==============================================================================
 void MainComponent::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+	g.setColour(Colours::red);
 
-    // You can add your drawing code here!
+	auto padding = 50;
+	auto height = getBounds().getHeight() - padding;
+	auto width = getBounds().getWidth() - padding;
+	auto midpoint = width / 2 + padding / 2;
+	auto difference = width - midpoint - padding / 2;
+	auto circleMaxDim = 40;
+	auto circleMinDim = 5;
+
+	for (auto i = 0; i < 50; ++i)
+	{
+		auto x = r.nextFloat() * difference;
+		auto y = r.nextFloat() * height + padding / 2;
+		auto dim = (r.nextFloat() * (circleMaxDim - circleMinDim)) + circleMinDim;
+		g.fillEllipse(midpoint + x - dim / 2, y - dim / 2, dim, dim);
+		g.fillEllipse(midpoint - x - dim / 2, y -  dim / 2, dim, dim);
+	}
 }
 
 void MainComponent::resized()
