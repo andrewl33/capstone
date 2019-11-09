@@ -29,7 +29,16 @@ MainComponent::MainComponent()
     }
 
 	r = Random();
+	// Fill pair array
+	for (auto i = 0; i < blobCount; ++i)
+	{
+		blobState.push_back(std::make_pair(std::vector<float>{0.0, 0.0, 0.0, 0.0}, std::vector<float>{0.0, 0.0, 0.0, 0.0}));
+		curState.push_back(std::vector<float>{0.0,0.0,0.0,0.0});
+	}
 
+	createNextState();
+	copyNextToCurState();
+	translate(0);
 
 }
 
@@ -75,6 +84,15 @@ void MainComponent::paint (Graphics& g)
 {
 	g.setColour(Colours::red);
 
+	for (int i = 0; i < blobState.size(); i++)
+	{
+		g.fillEllipse(curState[i][0], curState[i][1], curState[i][2], curState[i][3]);
+	}
+
+}
+
+void MainComponent::createNextState()
+{
 	auto padding = 50;
 	auto height = getBounds().getHeight() - padding;
 	auto width = getBounds().getWidth() - padding;
@@ -83,13 +101,57 @@ void MainComponent::paint (Graphics& g)
 	auto circleMaxDim = 40;
 	auto circleMinDim = 5;
 
-	for (auto i = 0; i < 50; ++i)
+	for (int i = 0; i < blobState.size(); i+=2)
 	{
 		auto x = r.nextFloat() * difference;
 		auto y = r.nextFloat() * height + padding / 2;
 		auto dim = (r.nextFloat() * (circleMaxDim - circleMinDim)) + circleMinDim;
-		g.fillEllipse(midpoint + x - dim / 2, y - dim / 2, dim, dim);
-		g.fillEllipse(midpoint - x - dim / 2, y -  dim / 2, dim, dim);
+
+		auto& left = blobState[i].second;
+		auto& right = blobState[(int64)i + (int64)1].second;
+
+		left[0] = midpoint + x - dim / 2;
+		left[1] = y - dim / 2;
+		left[2] = dim;
+		left[3] = dim;
+
+		right[0] = midpoint - x - dim / 2;
+		right[1] = y - dim / 2;
+		right[2] = dim;
+		right[3] = dim;
+	}	
+}
+
+void MainComponent::copyNextToCurState()
+{
+	for (int i = 0; i < blobState.size(); ++i) 
+	{
+		auto& oldState = blobState[i].first;
+		auto& newState = blobState[i].second;
+
+		for (int j = 0; j < oldState.size(); j++)
+		{
+			oldState[j] = newState[j];
+		}
+	}
+}
+
+void MainComponent::translate(float elapsed)
+{
+	float progress = elapsed / translateTime;
+
+	for (int i = 0; i < blobState.size(); i++)
+	{
+		auto from = blobState[i].first;
+		auto to = blobState[i].second;
+
+		// Create a new distance between points
+		auto distance = sqrt(pow(2.0, (to[0] - from[0])) + pow(2.0, (to[1] - from[1])));
+		auto boxSize = to[2] - from[2];
+
+		curState[i][0] = from[0] + distance * progress * (float)((double)to[0] - from[0]);
+		curState[i][1] = from[1] + distance * progress * (float)((double)to[1] - from[1]);
+		curState[i][2] = curState[i][3] = progress * boxSize + from[2];
 	}
 }
 
