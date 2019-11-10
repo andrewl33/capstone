@@ -15,7 +15,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent   : public AudioAppComponent
+class MainComponent   : public AudioAppComponent , public Timer
 {
 public:
     //==============================================================================
@@ -34,14 +34,16 @@ public:
 	void createNextState();
 	void copyNextToCurState();
 	void translate(float elapsed);
+	void timerCallback() override;
 private:
     //==============================================================================
     // Your private member variables go here...
 	Random r;
-	int blobCount = 50; // Has to be divisible by 2
+	int blobCount = 100; // Has to be divisible by 2
 	std::vector<std::pair<std::vector<float>, std::vector<float>>> blobState; // now, before<x loc, y loc, size, size> 
 	std::vector<std::vector<float>> curState; // x offset, x loc, y loc, size, size
-	float translateTime = 4; // seconds it takes for blobs to travel from one state to next
-
+	int translateTimeHz = 180; // seconds it takes for blobs to travel from one state to next
+	int updatePerSecond = 60;
+	int transitionCounter = 0;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

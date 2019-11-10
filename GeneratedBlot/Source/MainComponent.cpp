@@ -40,6 +40,18 @@ MainComponent::MainComponent()
 	copyNextToCurState();
 	translate(0);
 
+	startTimer(1000 / updatePerSecond);
+}
+
+void MainComponent::timerCallback()
+{
+	if (transitionCounter++ > translateTimeHz) {
+		copyNextToCurState();
+		createNextState();
+		transitionCounter = 0;
+	}
+	translate((transitionCounter/(float)translateTimeHz));
+	repaint();
 }
 
 MainComponent::~MainComponent()
@@ -136,9 +148,9 @@ void MainComponent::copyNextToCurState()
 	}
 }
 
-void MainComponent::translate(float elapsed)
+
+void MainComponent::translate(float progress)
 {
-	float progress = elapsed / translateTime;
 
 	for (int i = 0; i < blobState.size(); i++)
 	{
@@ -146,11 +158,13 @@ void MainComponent::translate(float elapsed)
 		auto to = blobState[i].second;
 
 		// Create a new distance between points
-		auto distance = sqrt(pow(2.0, (to[0] - from[0])) + pow(2.0, (to[1] - from[1])));
+		auto distance = sqrt(pow((to[0] - from[0]), 2.0) + pow((to[1] - from[1]), 2.0));
 		auto boxSize = to[2] - from[2];
 
-		curState[i][0] = from[0] + distance * progress * (float)((double)to[0] - from[0]);
-		curState[i][1] = from[1] + distance * progress * (float)((double)to[1] - from[1]);
+
+		curState[i][0] = from[0] +  progress * (float)((double)to[0] - from[0]);
+		
+		curState[i][1] = from[1] +  progress * (float)((double)to[1] - from[1]);
 		curState[i][2] = curState[i][3] = progress * boxSize + from[2];
 	}
 }
