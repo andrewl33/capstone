@@ -39,11 +39,12 @@ private:
     //==============================================================================
     // Your private member variables go here...
 	Random r;
-	int blobCount = 100; // Has to be divisible by 2
+	int blobCount = 150; // Has to be divisible by 2
 	std::vector<std::pair<std::vector<float>, std::vector<float>>> blobState; // now, before<x loc, y loc, size, size> 
 	std::vector<std::vector<float>> curState; // x offset, x loc, y loc, size, size
-	int translateTimeHz = 180; // seconds it takes for blobs to travel from one state to next
+	int translateTimeHz = 180; // hz it takes for blobs to travel from one state to next
 	int updatePerSecond = 60;
+	int pauseTimeHz = 2 * 60;
 	int transitionCounter = 0;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

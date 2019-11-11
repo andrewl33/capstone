@@ -45,10 +45,13 @@ MainComponent::MainComponent()
 
 void MainComponent::timerCallback()
 {
-	if (transitionCounter++ > translateTimeHz) {
+	if (transitionCounter++ > translateTimeHz + pauseTimeHz) {
 		copyNextToCurState();
 		createNextState();
 		transitionCounter = 0;
+	}
+	else if (transitionCounter > translateTimeHz) {
+		return;
 	}
 	translate((transitionCounter/(float)translateTimeHz));
 	repaint();
@@ -105,12 +108,12 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::createNextState()
 {
-	auto padding = 50;
+	auto padding = 70;
 	auto height = getBounds().getHeight() - padding;
 	auto width = getBounds().getWidth() - padding;
 	auto midpoint = width / 2 + padding / 2;
 	auto difference = width - midpoint - padding / 2;
-	auto circleMaxDim = 40;
+	auto circleMaxDim = 80;
 	auto circleMinDim = 5;
 
 	for (int i = 0; i < blobState.size(); i+=2)
