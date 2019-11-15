@@ -1,0 +1,1 @@
+gcc -o main main.cpp -framework GLUT -framework OpenGL -Wno-deprecated
