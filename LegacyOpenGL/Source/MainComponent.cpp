@@ -137,7 +137,7 @@ void MainComponent::createNextState()
 		auto& left = blobState[i].second;
 		auto& right = blobState[(int64)i + (int64)1].second;
 
-		left[0] = x - dim / 2;
+		left[0] = x + dim / 2;
 		left[1] = y - dim / 2 - (height / 2);
 		left[2] = dim;
 		left[3] = dim;
