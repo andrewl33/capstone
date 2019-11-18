@@ -61,17 +61,12 @@ void MainComponent::timerCallback()
 		return;
 	}
 	translate((transitionCounter/(float)translateTimeHz));
-    DBG(curState[0][2]);
-	//repaint();
-    //renderOpenGL();
-    // openGLContext.triggerRepaint();
 }
 
 MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
-    // openGLContextClosing();
     openGLContext.detach();
     openGLContext.deactivateCurrentContext();
 }
@@ -121,9 +116,21 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::createNextState()
 {
+    float adjDims = getHeight() / (float)getWidth();
 	auto padding = maxBallRadius;
-	auto width = 1.f - padding;
-    float height = 1.f - padding;
+    float width, height;
+    
+    if (getHeight() - getWidth() < 2)
+    {
+        height = 1.f / adjDims - padding;
+        width = 1.f - padding;
+    }
+    else
+    {
+        width = 1 /adjDims - padding;
+        height = adjDims - padding;
+        adjDims = 1 / adjDims;
+    }
 	auto difference = width - padding / 2;
 	auto circleMaxDim = .1;
 	auto circleMinDim = .005;
@@ -131,21 +138,34 @@ void MainComponent::createNextState()
 	for (int i = 0; i < blobState.size(); i+=2)
 	{
 		auto x = r.nextFloat() * difference;
-		auto y = r.nextFloat() * height + padding / 2;
+		auto y = r.nextFloat() * height;
 		auto dim = (r.nextFloat() * (circleMaxDim - circleMinDim)) + circleMinDim;
 
 		auto& left = blobState[i].second;
 		auto& right = blobState[(int64)i + (int64)1].second;
 
+        // For each dim larger than, we have to shrink it porportionally
 		left[0] = x + dim / 2;
-		left[1] = y - dim / 2 - (height / 2);
-		left[2] = dim;
-		left[3] = dim;
+		left[1] = y  - (height / 2);
 
-		right[0] = -x - dim / 2;
-		right[1] = y - dim / 2 - (height / 2);
-		right[2] = dim;
-		right[3] = dim;
+        right[0] = -x - dim / 2;
+		right[1] = y - (height / 2);
+	
+        // adjust for circle dimensions
+        if (getHeight() > getWidth())
+        {
+            left[2] = dim;
+            right[2] = dim;
+            left[3] = dim * adjDims;
+            right[3] = dim * adjDims;
+        }
+        else
+        {
+            left[2] = dim * adjDims;
+            right[2] = dim * adjDims;
+            left[3] = dim;
+            right[3] = dim;
+        }
 	}	
 }
 
@@ -173,13 +193,12 @@ void MainComponent::translate(float progress)
 
 		// Create a new distance between points
 		//auto distance = sqrt(pow((to[0] - from[0]), 2.0) + pow((to[1] - from[1]), 2.0));
-		auto boxSize = to[2] - from[2];
-
 
 		curState[i][0] = from[0] +  progress * (float)((double)to[0] - from[0]);
 		
 		curState[i][1] = from[1] +  progress * (float)((double)to[1] - from[1]);
-		curState[i][2] = curState[i][3] = progress * boxSize + from[2];
+        curState[i][2] = progress * (to[2] - from[2]) + from[2];
+        curState[i][3] = progress * (to[3] - from[3]) + from[3];
 	}
 }
 
@@ -218,11 +237,11 @@ void MainComponent::renderOpenGL()
            glVertex2f(0.0f, 0.0f);       // Center of circle
            int numSegments = 100;
            GLfloat angle;
-        auto capture = curState[i][2];
-        // DBG(capture);
+        auto x = curState[i][2];
+        auto y = curState[i][3];
            for (int i = 0; i <= numSegments; i++) { // Last vertex same as first vertex
               angle = i * 2.0f * PI / numSegments;  // 360 deg for all segments
-          glVertex2f(cos(angle) * capture, sin(angle) * capture);
+          glVertex2f(cos(angle) *  x, sin(angle) *  y);
            }
         glEnd();
         glPopMatrix();

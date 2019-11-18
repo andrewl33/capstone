@@ -55,7 +55,7 @@ private:
 	int updatePerSecond = 60;
 	int pauseTimeHz = 1 * 60;
 	int transitionCounter = 0;
-    float maxBallRadius = .2;
+    float maxBallRadius = .08;
  
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
