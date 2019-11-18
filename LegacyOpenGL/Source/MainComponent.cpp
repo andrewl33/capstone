@@ -16,7 +16,7 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    setSize (800, 800);
 
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
@@ -43,11 +43,11 @@ MainComponent::MainComponent()
 	copyNextToCurState();
 	translate(0);
 
-	// startTimer(1000 / updatePerSecond);
+	startTimer(1000 / updatePerSecond);
     
     openGLContext.setComponentPaintingEnabled(true);
     openGLContext.setRenderer(this);
-    //    openGLContext.setContinuousRepainting(true);
+    openGLContext.setContinuousRepainting(true);
     openGLContext.attachTo(*this);
 }
 
@@ -62,15 +62,17 @@ void MainComponent::timerCallback()
 		return;
 	}
 	translate((transitionCounter/(float)translateTimeHz));
+    DBG(curState[0][2]);
 	//repaint();
-    renderOpenGL();
+    //renderOpenGL();
+    // openGLContext.triggerRepaint();
 }
 
 MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
-    openGLContextClosing();
+    // openGLContextClosing();
 }
 
 //==============================================================================
@@ -119,12 +121,11 @@ void MainComponent::paint (Graphics& g)
 void MainComponent::createNextState()
 {
 	auto padding = maxBallRadius;
-	auto height = .5 - padding;
-	auto width = .5 - padding;
-	auto midpoint = width / 2 + padding / 2;
-	auto difference = width - midpoint - padding / 2;
-	auto circleMaxDim = .8;
-	auto circleMinDim = .05;
+	auto width = 1.f - padding;
+    float height = 1.f - padding;
+	auto difference = width - padding / 2;
+	auto circleMaxDim = .1;
+	auto circleMinDim = .005;
 
 	for (int i = 0; i < blobState.size(); i+=2)
 	{
@@ -135,13 +136,13 @@ void MainComponent::createNextState()
 		auto& left = blobState[i].second;
 		auto& right = blobState[(int64)i + (int64)1].second;
 
-		left[0] = midpoint + x - dim / 2;
-		left[1] = y - dim / 2;
+		left[0] = x - dim / 2;
+		left[1] = y - dim / 2 - (height / 2);
 		left[2] = dim;
 		left[3] = dim;
 
-		right[0] = midpoint - x - dim / 2;
-		right[1] = y - dim / 2;
+		right[0] = -x - dim / 2;
+		right[1] = y - dim / 2 - (height / 2);
 		right[2] = dim;
 		right[3] = dim;
 	}	
@@ -200,26 +201,31 @@ void MainComponent::renderOpenGL()
 {
     OpenGLHelpers::clear (Colours::black);
 
-    //glEnable (GL_BLEND);
-    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    double scaleFactor; // class member
-    scaleFactor = juce::Desktop::getInstance().getDisplays().getMainDisplay().scale; //in class' constructor
-    if(scaleFactor > 1) { //setTransform(juce::AffineTransform::scale(scaleFactor, scaleFactor));
-        
-    } //after the Openglcontext was initialized
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    double scaleFactor; // class member
+//    scaleFactor = juce::Desktop::getInstance().getDisplays().getMainDisplay().scale; //in class' constructor
+//    if (scaleFactor > 1) { //setTransform(juce::AffineTransform::scale(scaleFactor, scaleFactor));
+//
+//    } //after the Openglcontext was initialized
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < curState.size(); i++)
     {
-//        glBegin(GL_TRIANGLE_FAN);
-//           glColor3f(0.0f, 0.0f, 1.0f);  // Blue
-//           glVertex2f(0.0f, 0.0f);       // Center of circle
-//           int numSegments = 100;
-//           GLfloat angle;
-//           for (int i = 0; i <= numSegments; i++) { // Last vertex same as first vertex
-//              angle = i * 2.0f * PI / numSegments;  // 360 deg for all segments
-////          glVertex2f(cos(angle) * curState[i][2], sin(angle) * curState[i][2]);
-//              glVertex2f(cos(angle) * .5, sin(angle) * .5);
-//           }
-//        glEnd();
+        glPushMatrix();
+        glTranslatef(curState[i][0], curState[i][1], 0.f);  // Translate to (xPos, yPos)
+        glBegin(GL_TRIANGLE_FAN);
+           glColor3f(0.0f, 0.0f, 1.0f);  // Blue
+           glVertex2f(0.0f, 0.0f);       // Center of circle
+           int numSegments = 100;
+           GLfloat angle;
+        auto capture = curState[i][2];
+        // DBG(capture);
+           for (int i = 0; i <= numSegments; i++) { // Last vertex same as first vertex
+              angle = i * 2.0f * PI / numSegments;  // 360 deg for all segments
+          glVertex2f(cos(angle) * capture, sin(angle) * capture);
+           }
+        glEnd();
+        glPopMatrix();
     }
+    glFlush();
 }
