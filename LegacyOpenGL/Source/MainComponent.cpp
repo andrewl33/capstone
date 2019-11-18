@@ -8,8 +8,7 @@
 
 #include "MainComponent.h"
 #include <OpenGL/gl.h>
-#include <OpenGl/glu.h>
-#include <GLUT/glut.h>
+
 #define PI 3.14159265f
 //==============================================================================
 MainComponent::MainComponent()
@@ -45,7 +44,7 @@ MainComponent::MainComponent()
 
 	startTimer(1000 / updatePerSecond);
     
-    openGLContext.setComponentPaintingEnabled(true);
+    // openGLContext.setComponentPaintingEnabled(true);
     openGLContext.setRenderer(this);
     openGLContext.setContinuousRepainting(true);
     openGLContext.attachTo(*this);
@@ -73,6 +72,8 @@ MainComponent::~MainComponent()
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
     // openGLContextClosing();
+    openGLContext.detach();
+    openGLContext.deactivateCurrentContext();
 }
 
 //==============================================================================
@@ -192,8 +193,7 @@ void MainComponent::resized()
 void MainComponent::newOpenGLContextCreated() {}
 void MainComponent::openGLContextClosing()
 {
-    openGLContext.detach();
-    openGLContext.deactivateCurrentContext();
+
 };
 
 
