@@ -36,7 +36,7 @@ public:
 	void translate(float elapsed);
 	void timerCallback() override;
     
-    
+    void handleRetina();
     //==============================================================================
     void newOpenGLContextCreated() override;
     void openGLContextClosing() override;

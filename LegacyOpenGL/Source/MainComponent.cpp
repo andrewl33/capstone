@@ -222,12 +222,6 @@ void MainComponent::renderOpenGL()
 
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    double scaleFactor; // class member
-//    scaleFactor = juce::Desktop::getInstance().getDisplays().getMainDisplay().scale; //in class' constructor
-//    if (scaleFactor > 1) { //setTransform(juce::AffineTransform::scale(scaleFactor, scaleFactor));
-//
-//    } //after the Openglcontext was initialized
-
     for (int i = 0; i < curState.size(); i++)
     {
         glPushMatrix();
@@ -247,4 +241,18 @@ void MainComponent::renderOpenGL()
         glPopMatrix();
     }
     glFlush();
+}
+
+/**
+ handleRetina may be called in the class' constructor if the background has issues
+ rendering the image.
+ */
+void MainComponent::handleRetina()
+{
+    double scaleFactor; // class member
+    scaleFactor = juce::Desktop::getInstance().getDisplays().getMainDisplay().scale; //in class' constructor
+    if (scaleFactor > 1) { setTransform(juce::AffineTransform::scale(scaleFactor, scaleFactor));
+
+    } //after the Openglcontext was initialized
+
 }
