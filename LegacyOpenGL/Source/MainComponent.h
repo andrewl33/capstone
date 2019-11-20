@@ -48,14 +48,24 @@ private:
     // GLfloat ballXMax, ballXMin, ballYMax, ballYMin;
     
 	Random r;
-	int blobCount = 150; // Has to be divisible by 2
+	int blobCount = 200; // Has to be divisible by 2
 	std::vector<std::pair<std::vector<float>, std::vector<float>>> blobState; // now, before<x loc, y loc, size, size> 
-	std::vector<std::vector<float>> curState; // x offset, x loc, y loc, size, size
+	std::vector<std::vector<float>> curState; // x offset, x loc, y loc, size x, size y
+    
+    // time modifiers
 	int translateTimeHz = 180; // hz it takes for blobs to travel from one state to next
 	int updatePerSecond = 60;
 	int pauseTimeHz = 1 * 60;
 	int transitionCounter = 0;
-    float maxBallRadius = .08;
- 
+    
+    // ball sizes
+    float adjDims = 1;
+    float padding = .08;
+    float width, height;
+    float difference;
+    float circleMaxDim = .15;
+    float circleMinDim = .005;
+
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

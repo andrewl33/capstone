@@ -15,7 +15,7 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 800);
+    setSize (752, 500);
 
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
@@ -31,7 +31,8 @@ MainComponent::MainComponent()
     }
 
 	r = Random();
-	// Fill pair array
+	
+    // Fills arrays of blobs
 	for (auto i = 0; i < blobCount; ++i)
 	{
 		blobState.push_back(std::make_pair(std::vector<float>{0.0, 0.0, 0.0, 0.0}, std::vector<float>{0.0, 0.0, 0.0, 0.0}));
@@ -114,27 +115,13 @@ void MainComponent::paint (Graphics& g)
 
 }
 
+/**
+ createNextState creates a next state for a blob to travel to
+ In terms of resizing, right now this function will obey resizing rules, however the current circles will not update to
+ the correct size
+ */
 void MainComponent::createNextState()
 {
-    float adjDims = getHeight() / (float)getWidth();
-	auto padding = maxBallRadius;
-    float width, height;
-    
-    if (getHeight() - getWidth() < 2)
-    {
-        height = 1.f / adjDims - padding;
-        width = 1.f - padding;
-    }
-    else
-    {
-        width = 1 /adjDims - padding;
-        height = adjDims - padding;
-        adjDims = 1 / adjDims;
-    }
-	auto difference = width - padding / 2;
-	auto circleMaxDim = .1;
-	auto circleMinDim = .005;
-
 	for (int i = 0; i < blobState.size(); i+=2)
 	{
 		auto x = r.nextFloat() * difference;
@@ -144,7 +131,7 @@ void MainComponent::createNextState()
 		auto& left = blobState[i].second;
 		auto& right = blobState[(int64)i + (int64)1].second;
 
-        // For each dim larger than, we have to shrink it porportionally
+        // set centers of circles
 		left[0] = x + dim / 2;
 		left[1] = y  - (height / 2);
 
@@ -169,6 +156,9 @@ void MainComponent::createNextState()
 	}	
 }
 
+/**
+ copyNextToCurState is called when the transition period is over, and before a new state is made, the old state is copied into the old state
+ */
 void MainComponent::copyNextToCurState()
 {
 	for (int i = 0; i < blobState.size(); ++i) 
@@ -183,17 +173,17 @@ void MainComponent::copyNextToCurState()
 	}
 }
 
-
+/**
+ Translate updates curState with information needed for OpenGL to draw each circle,
+ based on a progress value, which is 0-1, where 1 is reached nextState
+ */
 void MainComponent::translate(float progress)
 {
 	for (int i = 0; i < blobState.size(); i++)
 	{
 		auto from = blobState[i].first;
 		auto to = blobState[i].second;
-
-		// Create a new distance between points
-		//auto distance = sqrt(pow((to[0] - from[0]), 2.0) + pow((to[1] - from[1]), 2.0));
-
+        
 		curState[i][0] = from[0] +  progress * (float)((double)to[0] - from[0]);
 		
 		curState[i][1] = from[1] +  progress * (float)((double)to[1] - from[1]);
@@ -204,9 +194,21 @@ void MainComponent::translate(float progress)
 
 void MainComponent::resized()
 {
-    // This is called when the MainContentComponent is resized.
-    // If you add any child components, this is where you should
-    // update their positions.
+    // Updates next state to correct circle sizes
+    adjDims = getHeight() / (float)getWidth();
+    
+    if (getHeight() - getWidth() < 2)
+    {
+        height = 1.f / adjDims - padding;
+        width = 1.f - padding;
+    }
+    else
+    {
+        width = 1 /adjDims - padding;
+        height = adjDims - padding;
+        adjDims = 1 / adjDims;
+    }
+    difference = width - padding / 2;
 }
 
 void MainComponent::newOpenGLContextCreated() {}
@@ -218,27 +220,30 @@ void MainComponent::openGLContextClosing()
 
 void MainComponent::renderOpenGL()
 {
+    // Clears background
     OpenGLHelpers::clear (Colours::black);
 
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glEnable (GL_BLEND);
+//    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    // Draw each blob
     for (int i = 0; i < curState.size(); i++)
     {
-        glPushMatrix();
+        glPushMatrix(); // Saves center point
         glTranslatef(curState[i][0], curState[i][1], 0.f);  // Translate to (xPos, yPos)
         glBegin(GL_TRIANGLE_FAN);
-           glColor3f(0.0f, 0.0f, 1.0f);  // Blue
+           glColor3f(0.0f, 0.0f, 1.0f);
            glVertex2f(0.0f, 0.0f);       // Center of circle
-           int numSegments = 100;
            GLfloat angle;
         auto x = curState[i][2];
         auto y = curState[i][3];
-           for (int i = 0; i <= numSegments; i++) { // Last vertex same as first vertex
-              angle = i * 2.0f * PI / numSegments;  // 360 deg for all segments
-          glVertex2f(cos(angle) *  x, sin(angle) *  y);
-           }
+        // draw circle
+        for (int i = 0; i <= circleSegments; i++) {
+           angle = i * 2.0f * PI / circleSegments;
+           glVertex2f(cos(angle) *  x, sin(angle) *  y);
+        }
         glEnd();
-        glPopMatrix();
+        glPopMatrix(); // Returns center point
     }
     glFlush();
 }
